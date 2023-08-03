@@ -1,23 +1,31 @@
-node('built-in') 
-{
-    stage('Continuous Download') 
-	{
-    git 'https://github.com/sunildevops77/maven.git'
-	}
-    stage('Continuous Build') 
-	{
-    sh label: '', script: 'mvn package'
-	}
-    stage('Continuous Deployment') 
-	{
-sh label: '', script: 'scp /home/ubuntu/.jenkins/workspace/ScriptedPipeline/webapp/target/webapp.war   ubuntu@172.31.26.217:/var/lib/tomcat8/webapps/qaenv.war'
-	}
-    stage('Continuous Testing') 
-	{
-              sh label: '', script: 'echo "Testing Passed"'
-	}
-    stage('Continuous Delivery') 
-	{
-sh label: '', script: 'scp /home/ubuntu/.jenkins/workspace/ScriptedPipeline/webapp/target/webapp.war   ubuntu@172.31.22.88:/var/lib/tomcat8/webapps/prodenv.war'
-	}
+pipeline {
+    agent any
+
+    stages {
+        stage('Continuous Download')
+		{
+            steps
+			{
+                script
+				{
+                    // Define the URL of the Git repository you want to clone
+                    def gitRepoUrl = 'https://github.com/sunildevops77/maven.git'
+
+                    // Clone the repository into a workspace directory
+                    git branch: 'master', url: gitRepoUrl
+                }
+            }
+        }
+        stage('Continuous Build')
+		{
+            steps
+			{
+                script
+				{
+                    sh 'mvn clean package' // Specify your Maven goals here
+
+				}
+            }
+        }
+    }
 }
