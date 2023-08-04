@@ -27,6 +27,16 @@ pipeline {
 				}
             }
         }
+	stage('Continuous Deployment') 
+		{
+			steps 
+			{
+                sshagent(['ubuntu-tomcat-server-2']) 
+				{
+					sh 'scp -o StrictHostKeyChecking=no /var/lib/jenkins/workspace/ScriptedPipeline/webapp/target/webapp.war ubuntu@172.31.16.74:/home/ubuntu/apache-tomcat-8.5.91/webapps/QAENV.war'
+				}
+            }
+        }
 	stage('Continuous Test_loans') 
 		{
             steps 
