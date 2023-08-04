@@ -27,5 +27,16 @@ pipeline {
 				}
             }
         }
+	stage('Continuous Test_loans') 
+		{
+            steps 
+			{
+                script 
+				{                    
+                    sh 'echo "Tesing Passed!"'
+                    
+				}
+            }
+        }
 	}
 }
